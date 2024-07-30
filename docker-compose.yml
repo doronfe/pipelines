@@ -10,7 +10,7 @@ services:
         networks:
             - jenkins
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock    
+            - jenkins_data:/var/run/docker.sock    
     
     worker1:
         hostname: jenkins-worker1
