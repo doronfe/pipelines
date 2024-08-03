@@ -24,8 +24,6 @@ pipeline{
                 echo 'Testing'
             }
         }
-        stage('Pack the binary'){
-            }
         }
 
 }
