@@ -1,12 +1,9 @@
 pipeline{
     agent any
-    parameters{
-        string(name: 'sleep_time', defaultValue:'2', description:'time to sleep')
-    }
     stages{
-        stage('Pre-Build'){
+        stage('Spellcheck'){
             steps{
-                echo 'Checking pre-requisites'
+                build job: 'Spellcheck_Pipeline'
             }
         }
         stage('Linter'){
