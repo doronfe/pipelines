@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sh '''
                 #Get requirements
-                sudo apt install python3.12-venv
+                sudo apt install python3-venv
                 python3 -m venv venv
                 cd venv/bin/
                 source activate
