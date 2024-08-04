@@ -10,6 +10,7 @@ pipeline{
         stage('Linter'){
             steps{
                 echo '[Main pipeline]: Check shell scripts'
+                build job: 'Linter_pipeline'
             } 
         }
         stage('Build'){
