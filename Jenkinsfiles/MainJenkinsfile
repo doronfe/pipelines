@@ -1,28 +1,30 @@
 pipeline{
-    agent any
+    agent {label 'workers'}
     stages{
         stage('Spellcheck'){
             steps{
-                echo '[Main pipeline]: Check Spelling'
+                echo '[Main pipeline]: Check Spelling...'
                 build job: 'Spellcheck_Pipeline'
             }
         }
         stage('Linter'){
             steps{
-                echo '[Main pipeline]: Check shell scripts'
-                build job: 'Linter_pipeline'
+                echo '[Main pipeline]: Check shell scripts...'
+                build job: 'Linter_Pipeline'
             } 
+        }
+        stage('Test'){
+            steps{
+                echo '[Main pipeline]: Testing...'
+                build job: 'Test_pipeline'
+            }
         }
         stage('Build'){
             steps{
                 echo 'Building the Project'
             }
         }
-        stage('Test'){
-            steps{
-                echo 'Testing'
-            }
-        }
+
         }
 
 }

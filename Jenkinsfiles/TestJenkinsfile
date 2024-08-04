@@ -1,0 +1,42 @@
+pipeline {
+    agent {label 'workers'}
+
+    stages {
+        stage('Prepare for testing') {
+            steps {
+                sh '''
+                #Get requirements
+                sudo apt install python3.12-venv
+                python3 -m venv venv
+                cd venv/bin/
+                source activate
+                pip install pytest flask sql flask_sqlalchemy flask_wtf
+                #clone details-app
+                git clone https://github.com/zero-pytagoras/details-app
+                '''
+            }
+        }
+        stage('Check spelling') {
+            steps {
+                sh '''
+                cd venv/bin/
+                source activate
+                cd ../../details-app
+                echo "Check Spelling"
+                ls -la
+                pytest details.py >logger.log 2>&1 &
+                # Check failure somehow...
+                '''
+            }
+        }
+    }
+    post { 
+        always{
+            sh'''
+            rm -rf details-app
+            rm -rf venv
+            '''
+        }
+    }
+}
+
