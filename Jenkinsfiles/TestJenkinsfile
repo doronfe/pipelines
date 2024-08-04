@@ -6,23 +6,16 @@ pipeline {
             steps {
                 sh '''
                 #Get requirements
-                sudo apt install -y python3-venv
-                python3 -m venv venv
-                cd venv/bin/
-                source activate
                 pip install pytest flask sql flask_sqlalchemy flask_wtf
                 #clone details-app
                 git clone https://github.com/zero-pytagoras/details-app
                 '''
-            }
+            }    
         }
-        stage('Check spelling') {
+        stage('Test') {
             steps {
                 sh '''
-                cd venv/bin/
-                source activate
-                cd ../../details-app
-                echo "Check Spelling"
+                cd details-app
                 ls -la
                 pytest details.py >logger.log 2>&1 &
                 # Check failure somehow...
@@ -34,7 +27,6 @@ pipeline {
         always{
             sh'''
             rm -rf details-app
-            rm -rf venv
             '''
         }
     }
