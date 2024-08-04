@@ -1,0 +1,31 @@
+pipeline {
+    agent {label 'workers'}
+
+    stages {
+        stage('Prepare for the build stage') {
+            steps {
+                sh '''
+                #clone details-app
+                git clone https://github.com/zero-pytagoras/details-app
+                '''
+            }
+        }
+        stage('Start building') {
+            steps {
+                sh '''
+                ls -la
+                cd details-app
+                echo "Build dockerfile"
+                docker build . -t details-app
+                '''
+            }
+        }
+    }
+        post { 
+            always {
+                sh'''
+                rm -rf details-app
+                '''
+            }
+        }
+}

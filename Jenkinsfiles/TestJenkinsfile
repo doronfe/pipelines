@@ -18,7 +18,7 @@ pipeline {
                 cd details-app
                 ls -la
                 pytest details.py >logger.log 2>&1 &
-                # Check failure somehow...
+                # Check for failures somehow and fails if needed ...
                 '''
             }
         }
