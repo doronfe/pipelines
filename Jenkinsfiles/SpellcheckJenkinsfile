@@ -1,0 +1,41 @@
+pipeline {
+    agent {label 'workers'}
+
+    stages {
+        stage('Prepare for Spellcheck') {
+            steps {
+                sh '''
+                #Get codespell
+                sudo apt-get install codespell
+                #clone details-app
+                git clone https://github.com/zero-pytagoras/details-app
+                '''
+            }
+        }
+        stage('Check spelling') {
+            steps {
+                sh '''
+                echo "Check Spelling"
+                ls -la
+                cd details-app
+                codespell * > fix_spelling
+                cat fix_spelling
+                # Check if file has any lines
+                if [ $(wc -l < fix_spelling) -eq 0 ]; then
+                    echo "No spelling errors!"
+                else
+                    echo "There are spelling errors, Failing the pipeline!"
+                    exit 1
+                fi
+                '''
+            }
+        }
+    }
+    post { 
+        always{
+            sh'''
+            rm -rf details-app
+            '''
+        }
+    }
+}

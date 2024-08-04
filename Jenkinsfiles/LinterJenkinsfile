@@ -1,0 +1,42 @@
+pipeline {
+    agent {label 'workers'}
+
+    stages {
+        stage('Prepare for Shellcheck') {
+            steps {
+                sh '''
+                #Get shellcheck
+                sudo apt-get install shellcheck
+                #clone details-app
+                git clone https://github.com/zero-pytagoras/details-app
+                '''
+            }
+        }
+        stage('Check shell scripts') {
+            steps {
+                sh '''
+                echo "Check Spelling"
+                ls -la
+                cd details-app
+                echo "Running shell check and ignoring a specific warning"
+                shellcheck *.sh -e SC2034 > shellcheck_results
+                cat shellcheck_results
+                # Check if file has any lines
+                if [ $(wc -l < shellcheck_results) -eq 0 ]; then
+                    echo "No  errors!"
+                else
+                    echo "There are errors, Failing the pipeline!"
+                    exit 1
+                fi
+                '''
+            }
+        }
+    }
+    post { 
+        always{
+            sh'''
+            rm -rf details-app
+            '''
+        }
+    }
+}
