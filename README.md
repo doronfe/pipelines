@@ -1,9 +1,12 @@
 # pipelines
 
 Comments:
-- Used Dockerfiles from the course repositories as is.
+- This Readme is incomplete
+- Used Dockerfiles from the course repositories as is
 - I'm cloning the git repository in each secondary pipeline, 
   I need to do that only once in the main one...
+- Docker build doesn't work because the docker daemon is not running
+  I think I need to use a "script" with docker.build in order for that to work
 
 Prerequisits:
 Install ngrok: https://dashboard.ngrok.com/get-started/setup/linux
